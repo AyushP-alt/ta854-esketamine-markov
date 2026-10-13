@@ -1,0 +1,18 @@
+input,value,source
+Population,Adults with treatment-resistant depression; start age 46,TA854 scope; SUSTAIN-1 mean age 46.3 (Daly et al. JAMA Psychiatry 2019)
+Comparator,Placebo nasal spray + newly started oral antidepressant,Company submission comparison in TA854 (TRANSFORM-2 design)
+"Perspective, discount, cycle","NHS, 3.5% costs and QALYs, 4-week cycle, 5-year horizon",NICE reference case; company originally used 5 years (TA854 section 3.24)
+"Induction response, esketamine",0.693 at day 28,"TRANSFORM-2, Popova et al. Am J Psychiatry 2019; cited in TA854 committee papers (69%)"
+"Induction response, comparator",0.520 at day 28,"TRANSFORM-2, Popova et al. 2019; TA854 committee papers (52%)"
+Induction remission (used only to weight the collapsed utility),0.525 vs 0.310,"TRANSFORM-2, Popova et al. 2019; TA854 committee papers (53% vs 31%)"
+"4-week relapse, esketamine arm",0.067787,"Derived from SUSTAIN-1 stable remitters: 26.7% relapsed, median exposure 17.7 weeks (Daly et al. JAMA Psychiatry 2019). p = 1-(1-0.267)^(4/17.7). Company model used 2.43% recurrence instead."
+"4-week relapse, comparator arm",0.127454,"Derived from SUSTAIN-1 stable remitters on placebo spray: 45.3% relapsed, same exposure assumption. Company model used 3.56% recurrence, and STAR*D for the comparator (TA854 section 3.21)."
+Re-response after cycle 1,0.08 both arms,"Illustrative. Below TRANSFORM-2 and in the range of STAR*D later-step response, which TA854 used for subsequent lines. Not a copied transition."
+"Utility, depressed",0.417,"TRANSFORM-2 baseline, EQ-5D-5L mapped to 3L, TA854 committee papers"
+"Utility, response / remission",0.764 / 0.866; collapsed base case 0.841,TA854 committee papers. Weighting is a simplification of this 3-state model.
+Health-state cost per 4-week cycle,Depressed £980; responding £164,"TA854 committee papers, document 1-2, UK chart review (n=295)"
+Esketamine list price,£163 / £326 / £489 for 28 / 56 / 84 mg,"BNF online, April 2022, quoted in TA854 section 2.3. Base case uses 84 mg."
+Session schedule,"8, then 4, then 2 sessions per 4-week cycle","SmPC / TA854: twice weekly weeks 1-4, weekly weeks 5-8, every 1-2 weeks thereafter. Fortnightly used from cycle 3."
+Administration cost per session,£25 company-style; £150 committee-style,Derived from the 6:1 vs 1:1 nurse-ratio dispute in TA854 sections 3.29 and 3.35. Not a published unit cost.
+Background mortality,"annual qx 0.0016 at age 46, constant","Approximation to ONS national life tables, England, 2018-2020, age 46, weighted to SUSTAIN-1 sex mix. Confirm against the ONS qx spreadsheet before any real use."
+Treatment duration and waning,Base: stop costs after 9 cycles; 15% of incremental effect lost per cycle after stopping,"Scenario settings, not estimates. Company assumed substantial stopping by 9-24 months and maintained benefit. Committee disputed both (TA854 sections 3.24, 3.29-3.31)."

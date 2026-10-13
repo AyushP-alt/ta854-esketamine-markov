@@ -1,0 +1,15 @@
+{
+  "inc_cost": 6953.700089548467,
+  "inc_qaly": 0.0992423407826033,
+  "icer": 70067.87662113887,
+  "esk_cost": 46404.49848796487,
+  "esk_qaly": 2.7700849444879854,
+  "esk_ly": 4.575795956862604,
+  "comp_cost": 39450.7983984164,
+  "comp_qaly": 2.670842603705382,
+  "comp_ly": 4.575795956862605,
+  "checks": [
+    "esketamine: final state sum 1.000000; discounted QALYs 2.770 vs life-years 4.576",
+    "comparator: final state sum 1.000000; discounted QALYs 2.671 vs life-years 4.576"
+  ]
+}
