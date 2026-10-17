@@ -49,13 +49,19 @@ A few checks are built in. In every cycle the state shares add up to 1, so the c
 
 The workbook also has a few timing habits of its own. QALYs use the average of the state at the start and end of the cycle, except in the last cycle, where the end state is left out. Health-state costs and the oral antidepressant cost use the state at the start of the cycle. Waning begins one transition earlier than in the default Python run. The relapse probabilities are stored to six decimal places: 0.067787 for esketamine and 0.127454 for the comparator.
 
-This Python call uses those same settings:
+This Python call uses those workbook-specific settings and rounded relapse inputs. The reconciliation is separate from the dashboard's default Python run:
 
 ```bash
 python -c "import model; r=model.run_model(model.Inputs(p_relapse_esk=0.067787, p_relapse_comp=0.127454), drop_last_half_cycle=True, waning_start_shift=-1, half_cycle_costs=False); print(r.icer)"
 ```
 
-It matches the workbook. Esketamine costs £46,944.21 and produces 2.736 QALYs. The comparator costs £39,611.03 and produces 2.652 QALYs. The ICER is £87,106.80 per QALY.
+The checked-in workbook's `Results` sheet reports discounted costs of £46,944.2095 for esketamine and £39,611.0286 for the comparator, and discounted QALYs of 2.736356649 and 2.652170557, respectively. Its incremental cost is £7,333.1809, incremental QALYs are 0.084186092, and ICER is £87,106.7978 per QALY. The current Python engine reproduces those cached workbook values within the explicit tolerances in `test_excel_reconciliation.py` (1p for costs, 1e-9 QALYs, and 1p/QALY for the ICER).
+
+This numerical reconciliation checks that the configured Python run follows the workbook's timing and rounding conventions. It does not establish that the workbook is methodologically correct or preferable. The default dashboard continues to use `model.incremental(model.Inputs())` and the Python conventions; do not use the workbook-matching figures as its base case. Run the separate reconciliation check with:
+
+```bash
+python -m unittest -v test_excel_reconciliation.py
+```
 
 ## What moves the result
 
@@ -93,6 +99,30 @@ The input log is the first table in the notebook and `outputs/input_log.csv`. Th
 - `TA854_Esketamine_Illustrative_Markov.xlsx` is the Excel version, including the sheet's own timing and rounding.
 - `esketamine_ta854_illustrative.ipynb` walks through the inputs, scenarios, and tornado chart. The numbers saved in the notebook are from before the ineligible-relapse correction.
 - `outputs/` holds the tornado chart, state traces, and scenario tables from that same earlier run. Run `model.py` again for the current base case.
+
+## Interactive value and access dashboard
+
+The Streamlit app is a presentation layer around the current Python calculation engine. It does not reproduce the Markov transitions. Its base case calls `model.incremental(model.Inputs())`; the workbook reconciliation remains a separate configuration.
+
+Create an environment and install dependencies:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Launch the dashboard from this folder:
+
+```bash
+streamlit run app.py
+```
+
+The four sections cover value overview, price and access, deterministic sensitivity scenarios, and model/evidence. The Price & Access Explorer controls map to model inputs for acquisition price, induction response, relapse assumptions, treatment duration, waning, and administration cost. Horizon and WTP are set in the sidebar; WTP affects NMB and reference lines only and is not passed into the model. The app's cohort chart uses cycle-start occupancy (`depressed`, `responding`, `dead`) rather than the half-cycle occupancies used for QALYs.
+
+The WTP selector separates the historical TA854 range (£20,000–£30,000/QALY) from the current NICE technology-appraisal range (£25,000–£35,000/QALY), in effect for relevant appraisals from April 2026. See NICE's [economic evaluation guidance](https://www.nice.org.uk/process/pmg36/chapter/economic-evaluation-2/) and [2025–26 annual report](https://indepth.nice.org.uk/nice-annual-report-and-accounts-2025-26/index.html). Current policy thresholds are not applied retroactively to TA854.
+
+All app scenarios are deterministic model runs. They are not probabilistic sensitivity analysis and do not estimate a probability of cost-effectiveness. A positive incremental NMB means esketamine has higher net benefit at the selected threshold under the selected assumptions; it does not establish coverage, reimbursement, or affordability.
 
 ## Licence of the numbers
 

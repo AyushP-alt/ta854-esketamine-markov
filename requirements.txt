@@ -2,3 +2,5 @@ numpy>=1.24
 pandas>=2.0
 matplotlib>=3.7
 nbformat>=5.0
+streamlit>=1.49
+plotly>=5.24
